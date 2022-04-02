@@ -1,20 +1,28 @@
-using input;
-using physic;
+using Input;
+using Physic;
 using UnityEngine;
 
-namespace main
+namespace Main
 {
     public sealed class PlayerController : MonoBehaviour
     {
+        /// <summary>
+        /// To detect the player component where the player clicks, and add the clicking logic there.
+        /// </summary>
         [System.Serializable]
         private class ClickerDetecter : IClick
         {
             [SerializeField] private Camera m_Camera;
             [SerializeField] private LayerMask m_PlayerMask;
 
+            /// <summary>
+            /// When the player click on the screen we call this function.
+            /// </summary>
+            /// <param name="data"> Input Info </param>
             public void OnClick(InputInfo data)
             {
-                Debug.Log("RaycastHits value: " + RaycastHits.GetColliderHitedRaycast<Player>(m_Camera, data.point, m_PlayerMask));
+                Player player = RaycastHits.GetColliderHitedRaycast<Player>(m_Camera, data.currentPosition, m_PlayerMask);
+                if (player != null) player.MakeBlow();
             }
         }
 
@@ -22,12 +30,12 @@ namespace main
 
         private void OnEnable()
         {
-            InputEvents.SubscribeClick(m_ClickerDetecter);
+            InputEvents.Click.Subscribe(m_ClickerDetecter);
         }
 
         private void OnDisable()
         {
-            InputEvents.UnsubscribeClick(m_ClickerDetecter);
+            InputEvents.Click.Unsubscribe(m_ClickerDetecter);
         }
     }
 }

@@ -1,15 +1,20 @@
 using UnityEngine;
 
-namespace main
+namespace Main
 {
-    public sealed class MatchCreator : MonoBehaviour
+    public partial class MatchCreator : MonoBehaviour
     {
+        /// <summary>
+        /// Positions of the players saved on array...
+        /// </summary>
         [System.Serializable]
         public struct MatchInfo
         {
             public Vector3[] positions;
             public int totalPlayers => positions.Length;
         }
+
+        private IMatchManager m_MatchManager;
 
         [Header("Info")]
         [SerializeField] private MatchInfo m_PlayerInfo;
@@ -20,23 +25,28 @@ namespace main
 
         [Header("Players")]
         [SerializeField] private Player m_PlayerPrefab;
-        [SerializeField] private Enemy m_EnemyPrefab;
+        [SerializeField] private Agent m_EnemyPrefab;
 
         private void OnEnable()
         {
+            m_MatchManager = Engine.DI.DIContainer.GetAsSingle<IMatchManager>();
+
             CreateMatch();
         }
 
+        /// <summary>
+        /// Create and Instantiate all players and enemies.
+        /// </summary>
         private void CreateMatch()
         {
             for (int i = 0; i < m_PlayerInfo.totalPlayers; i++)
             {
-                Instantiate(m_PlayerPrefab, m_PlayerInfo.positions[i], Quaternion.identity).Initialize(m_Ball);
+                Instantiate(m_PlayerPrefab, m_PlayerInfo.positions[i], Quaternion.identity).Initialize(m_MatchManager, m_Ball);
             }
 
             for (int i = 0; i < m_EnemyInfo.totalPlayers; i++)
             {
-                Instantiate(m_EnemyPrefab, m_EnemyInfo.positions[i], new Quaternion(0, 0, 1, 0)).Initialize(m_Ball);
+                Instantiate(m_EnemyPrefab, m_EnemyInfo.positions[i], new Quaternion(0, 0, 1, 0)).Initialize(m_MatchManager, m_Ball);
             }
         }
 
@@ -45,7 +55,7 @@ namespace main
         public void GenerateMatchInfo()
         {
             Player[] players = gameObject.GetComponentsInChildren<Player>();
-            Enemy[] enemies = gameObject.GetComponentsInChildren<Enemy>();
+            Agent[] enemies = gameObject.GetComponentsInChildren<Agent>();
 
             if (players.Length == 0 || enemies.Length == 0) return;
 
