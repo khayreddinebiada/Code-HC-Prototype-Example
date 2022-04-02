@@ -3,7 +3,7 @@
 namespace Main
 {
     [System.Serializable]
-    public abstract class Head : IHead, IGoalHandler
+    public abstract class Head : IHead
     {
         [SerializeField] protected Transform m_Body;
         [SerializeField] protected Animator m_Animator;
@@ -22,6 +22,8 @@ namespace Main
         {
             //m_Animator.Play("Blow", 0, 0.25f);
         }
+
+        public abstract void OnGamePause(bool isPause);
 
         public abstract void OnGoalMaded();
     }

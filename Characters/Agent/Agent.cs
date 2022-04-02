@@ -11,31 +11,31 @@ namespace Main
 
         private IAgentBrain m_Brain;
 
-        private void Start()
+        protected override void OnInitialiazed()
         {
+            m_Manager.SubscribeGoalHandler(m_Head);
+
+            m_Manager.SubscribeGamePauser(m_Head);
+            m_Manager.SubscribeGamePauser(m_Blow);
+
             m_Brain = _brain;
         }
 
         private void Update()
         {
-            if (!m_Blow.allow) return;
+            if (!m_Blow.isEnable) return;
 
             if (m_Brain.AllowBlow()) MakeBlow();
         }
 
         protected override IBlow DefineBlow()
         {
-            return _settings.blowAgent;
+            return _settings.AgentBlow;
         }
 
         protected override IHead DefineHead()
         {
             m_AgentHead.Initialize();
-            return m_AgentHead;
-        }
-
-        protected override IGoalHandler DefineGoalHandler()
-        {
             return m_AgentHead;
         }
     }

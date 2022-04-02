@@ -4,7 +4,8 @@ namespace Main
 {
     public partial class MatchManager : Engine.DI.HighOrderBehaviour, IMatchManager
     {
-        public InterfaceEvent<IGoalHandler> goalEvents => new InterfaceEvent<IGoalHandler>();
+        private InterfaceEvent<IGoalHandler> goalEvents => new InterfaceEvent<IGoalHandler>();
+        private InterfaceEvent<IGamePause> gamePauseEvents => new InterfaceEvent<IGamePause>();
 
         private void Awake()
         {
@@ -16,9 +17,19 @@ namespace Main
             goalEvents.Invoke(madeGoal => madeGoal.OnGoalMaded());
         }
 
-        public void Subscribe(IGoalHandler goalEvent)
+        public void ExecutePause(bool isPause)
+        {
+            gamePauseEvents.Invoke(gamePause => gamePause.OnGamePause(isPause));
+        }
+
+        public void SubscribeGoalHandler(IGoalHandler goalEvent)
         {
             goalEvents.Subscribe(goalEvent ?? throw new System.ArgumentNullException());
+        }
+
+        public void SubscribeGamePauser(IGamePause gamePause)
+        {
+            gamePauseEvents.Subscribe(gamePause ?? throw new System.ArgumentNullException());
         }
     }
 }

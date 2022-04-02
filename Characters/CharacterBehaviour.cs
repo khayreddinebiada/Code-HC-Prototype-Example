@@ -9,9 +9,9 @@ namespace Main
         protected IBlow m_Blow;
         protected IHead m_Head;
 
-        protected Ball m_Ball = null;
+        protected IBall m_Ball = null;
 
-        public void Initialize(IMatchManager manager, Ball ball)
+        public void Initialize(IMatchManager manager, IBall ball)
         {
             m_Manager = manager ?? throw new System.NullReferenceException();
 
@@ -21,18 +21,18 @@ namespace Main
 
             m_Blow = DefineBlow();
 
-            m_Manager.Subscribe(DefineGoalHandler());
+            OnInitialiazed();
         }
+
+        protected abstract void OnInitialiazed();
 
         protected abstract IBlow DefineBlow();
 
         protected abstract IHead DefineHead();
 
-        protected abstract IGoalHandler DefineGoalHandler();
-
         public virtual void MakeBlow()
         {
-            if (!m_Blow.allow) return;
+            if (!m_Blow.isEnable) return;
 
             Vector3 direction = (transform.position - m_Ball.position);
             float magnitude = direction.magnitude;

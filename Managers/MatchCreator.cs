@@ -15,13 +15,11 @@ namespace Main
         }
 
         private IMatchManager m_MatchManager;
+        private IBall m_Ball;
 
         [Header("Info")]
         [SerializeField] private MatchInfo m_PlayerInfo;
         [SerializeField] private MatchInfo m_EnemyInfo;
-
-        [Header("Objects")]
-        [SerializeField] private Ball m_Ball;
 
         [Header("Players")]
         [SerializeField] private Player m_PlayerPrefab;
@@ -30,6 +28,7 @@ namespace Main
         private void OnEnable()
         {
             m_MatchManager = Engine.DI.DIContainer.GetAsSingle<IMatchManager>();
+            m_Ball = Engine.DI.DIContainer.GetAsSingle<IBall>();
 
             CreateMatch();
         }
