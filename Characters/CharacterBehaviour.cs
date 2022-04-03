@@ -30,18 +30,22 @@ namespace Main
 
         protected abstract IHead DefineHead();
 
-        public virtual void MakeBlow()
+        public virtual bool MakeBlow()
         {
-            if (!m_Blow.isEnable) return;
+            if (!m_Blow.isEnable) return false;
 
             Vector3 direction = (transform.position - m_Ball.position);
             float magnitude = direction.magnitude;
             direction = -new Vector3(direction.x, 0, direction.z) / magnitude;
 
-            m_Ball.AddForce(m_Blow.BlowForce(direction, magnitude));
+            bool isBlowing = m_Blow.TryGetBlowForce(direction, magnitude, out Vector3 blowResult);
+            if (isBlowing == false) return false;
+
+            m_Ball.AddForce(m_Ball.velocity / 2 + blowResult * 2);
 
             m_Head.LookAt(direction);
             m_Head.OnBlowed();
+            return true;
         }
     }
 }

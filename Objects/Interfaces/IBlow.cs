@@ -6,8 +6,6 @@ namespace Main
     {
         bool isEnable { get; set; }
 
-        void MakePause(bool isPause);
-
-        Vector3 BlowForce(Vector3 direction, float magnitude);
+        bool TryGetBlowForce(Vector3 direction, float sqrMagnitude, out Vector3 result);
     }
 }

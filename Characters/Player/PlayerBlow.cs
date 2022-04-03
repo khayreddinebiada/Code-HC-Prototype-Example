@@ -10,21 +10,21 @@ namespace Main
 
         public bool isEnable { get; set; }
 
-        public Vector3 BlowForce(Vector3 direction, float sqrMagnitude)
+        public bool TryGetBlowForce(Vector3 direction, float sqrMagnitude, out Vector3 result)
         {
-            if (sqrMagnitude <= m_Radio) return direction * m_ForceValue;
+            if (sqrMagnitude <= m_Radio)
+            {
+                result = direction * m_ForceValue;
+                return true;
+            }
 
-            return Vector3.zero;
-        }
-
-        public void MakePause(bool isPause)
-        {
-            throw new System.NotImplementedException();
+            result = Vector3.zero;
+            return false;
         }
 
         public void OnGamePause(bool isPause)
         {
-            throw new System.NotImplementedException();
+            isEnable = !isPause;
         }
     }
 }

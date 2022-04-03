@@ -8,6 +8,8 @@ namespace Main
 
         public Vector3 position => transform.position;
 
+        public Vector3 velocity => m_Rigidbody.velocity;
+
         private void Awake()
         {
             Engine.DI.DIContainer.RegisterAsSingle<IBall>(this);
