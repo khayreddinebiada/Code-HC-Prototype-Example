@@ -6,7 +6,7 @@ namespace Main
     {
         public override void OnGamePause(bool isPause)
         {
-            throw new System.NotImplementedException();
+
         }
 
         public override void OnGoalMaded()

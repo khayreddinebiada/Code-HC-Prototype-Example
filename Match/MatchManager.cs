@@ -2,7 +2,7 @@
 
 namespace Main
 {
-    public partial class MatchManager : Engine.DI.HighOrderBehaviour, IMatchManager
+    public class MatchManager : Engine.DI.HighOrderBehaviour, IMatchManager
     {
         private InterfaceEvent<IGoalHandler> goalEvents => new InterfaceEvent<IGoalHandler>();
         private InterfaceEvent<IGamePause> gamePauseEvents => new InterfaceEvent<IGamePause>();

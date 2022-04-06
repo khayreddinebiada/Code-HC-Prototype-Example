@@ -14,9 +14,6 @@ namespace Main
 
             m_Manager.SubscribeGamePauser(m_Head);
             m_Manager.SubscribeGamePauser(m_Blow);
-
-
-            m_Blow.isEnable = true;
         }
 
         protected override IBlow DefineBlow()

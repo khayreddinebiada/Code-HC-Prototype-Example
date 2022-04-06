@@ -2,17 +2,16 @@
 
 namespace Main
 {
-    public enum AgentDifficulty
-    {
-        Easy, Medium, Hard
-    }
+    public enum AgentDifficulty { Easy, Medium, Hard }
 
     [CreateAssetMenu(fileName = "New Character Settings", menuName = "Add/More/Character Settings", order = 10)]
     public class CharacterSettings : ScriptableObject
     {
         public PlayerBlow PlayerBlow;
+        public AgentBlow[] AgentBlow;
 
-        public AgentBlow AgentBlow;
-        public AgentDifficulty m_Difficulty = AgentDifficulty.Easy;
+        public EasyBrain easyBrain;
+        public MeduimBrain mediumBrain;
+        public HardBrain hardBrain;
     }
 }

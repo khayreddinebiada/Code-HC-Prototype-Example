@@ -11,8 +11,12 @@ namespace Main
 
         protected IBall m_Ball = null;
 
-        public void Initialize(IMatchManager manager, IBall ball)
+        public int id { get; protected set; }
+
+        public void Initialize(IMatchManager manager, int id, IBall ball)
         {
+            this.id = id;
+
             m_Manager = manager ?? throw new System.NullReferenceException();
 
             m_Ball = ball ?? throw new System.NullReferenceException();
@@ -41,7 +45,7 @@ namespace Main
             bool isBlowing = m_Blow.TryGetBlowForce(direction, magnitude, out Vector3 blowResult);
             if (isBlowing == false) return false;
 
-            m_Ball.AddForce(m_Ball.velocity / 2 + blowResult * 2);
+            m_Ball.AddForce(blowResult);
 
             m_Head.LookAt(direction);
             m_Head.OnBlowed();

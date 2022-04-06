@@ -3,7 +3,7 @@
 namespace Main
 {
     [System.Serializable]
-    public struct PlayerBlow : IBlow
+    public class PlayerBlow : IBlow
     {
         public float m_ForceValue;
         public float m_Radio;
@@ -25,6 +25,7 @@ namespace Main
         public void OnGamePause(bool isPause)
         {
             isEnable = !isPause;
+            Debug.Log("Is Enable: " + isEnable);
         }
     }
 }

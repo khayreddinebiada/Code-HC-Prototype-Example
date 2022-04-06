@@ -3,18 +3,19 @@
 namespace Main
 {
     [System.Serializable]
-    public struct AgentBlow : IBlow
+    public class AgentBlow : IBlow
     {
-        public float m_ForceValue;
-        public float m_Radio;
+        public string name;
+        public float forceValue;
+        public float radio;
 
         public bool isEnable { get; set; }
 
         public bool TryGetBlowForce(Vector3 direction, float sqrMagnitude, out Vector3 result)
         {
-            if (sqrMagnitude <= m_Radio)
+            if (sqrMagnitude <= radio)
             {
-                result = direction * m_ForceValue;
+                result = direction * forceValue;
                 return true;
             }
 

@@ -2,15 +2,11 @@
 
 namespace Main
 {
-    public partial class Agent : CharacterBehaviour
+    public class Agent : CharacterBehaviour
     {
         [SerializeField] private CharacterSettings _settings;
         [SerializeField] private AgentHead m_AgentHead;
 
-
-        [SerializeField] private EasyBrain m_EasyBrain;
-        [SerializeField] private EasyBrain m_MediumBrain;
-        [SerializeField] private EasyBrain m_HardBrain;
 
         private IAgentBrain m_Brain;
 
@@ -19,7 +15,7 @@ namespace Main
 
         protected override void OnInitialiazed()
         {
-            m_Brain = DefineBrain();
+            SetBrain(_settings.easyBrain);
 
             m_Manager.SubscribeGoalHandler(m_Head);
 
@@ -27,16 +23,9 @@ namespace Main
             m_Manager.SubscribeGamePauser(m_Blow);
         }
 
-        private IAgentBrain DefineBrain()
+        public void SetBrain(IAgentBrain brain)
         {
-            switch (_settings.m_Difficulty)
-            {
-                case AgentDifficulty.Easy: return m_EasyBrain;
-                case AgentDifficulty.Medium: return m_MediumBrain;
-                case AgentDifficulty.Hard: return m_HardBrain;
-            }
-
-            return m_EasyBrain;
+            m_Brain = brain;
         }
 
         private void Update()
@@ -53,7 +42,7 @@ namespace Main
 
         protected override IBlow DefineBlow()
         {
-            return _settings.AgentBlow;
+            return _settings.AgentBlow[id];
         }
 
         protected override IHead DefineHead()

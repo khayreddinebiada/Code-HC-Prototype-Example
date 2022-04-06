@@ -25,6 +25,10 @@ namespace Main
         [SerializeField] private Player m_PlayerPrefab;
         [SerializeField] private Agent m_EnemyPrefab;
 
+#if UNITY_EDITOR
+        [SerializeField] private CharacterSettings m_CharacterSettings;
+#endif
+
         private void OnEnable()
         {
             m_MatchManager = Engine.DI.DIContainer.GetAsSingle<IMatchManager>();
@@ -40,12 +44,12 @@ namespace Main
         {
             for (int i = 0; i < m_PlayerInfo.totalPlayers; i++)
             {
-                Instantiate(m_PlayerPrefab, m_PlayerInfo.positions[i], Quaternion.identity).Initialize(m_MatchManager, m_Ball);
+                Instantiate(m_PlayerPrefab, m_PlayerInfo.positions[i], Quaternion.identity).Initialize(m_MatchManager, i, m_Ball);
             }
 
             for (int i = 0; i < m_EnemyInfo.totalPlayers; i++)
             {
-                Instantiate(m_EnemyPrefab, m_EnemyInfo.positions[i], new Quaternion(0, 0, 1, 0)).Initialize(m_MatchManager, m_Ball);
+                Instantiate(m_EnemyPrefab, m_EnemyInfo.positions[i], new Quaternion(0, 0, 1, 0)).Initialize(m_MatchManager, i, m_Ball);
             }
         }
 
@@ -65,7 +69,10 @@ namespace Main
                 m_PlayerInfo.positions[i] = players[i].transform.position;
 
             for (int i = 0; i < m_EnemyInfo.totalPlayers; i++)
+            {
                 m_EnemyInfo.positions[i] = enemies[i].transform.position;
+                m_CharacterSettings.AgentBlow[i].name = enemies[i].name;
+            }
         }
 #endif
     }
